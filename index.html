@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>제주 3박 4일 가족 여행 (테슬라 & 42개월 아이)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FF8C00; /* 제주 감귤색 */
+            --secondary: #0077BE; /* 제주 바다색 */
+            --bg: #F9F9F9;
+            --card-bg: #FFFFFF;
+            --text: #333333;
+            --gray: #666666;
+            --accent: #228B22;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary), #FFB347);
+            border-radius: 15px;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header h1 { margin: 0; font-size: 1.5rem; }
+        header p { margin: 5px 0 0; font-size: 0.9rem; opacity: 0.9; }
+
+        .day-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-bottom: 25px;
+            overflow: hidden;
+            border-left: 5px solid var(--secondary);
+        }
+
+        .day-header {
+            background-color: #f0f8ff;
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .day-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+
+        .day-route {
+            font-size: 0.85rem;
+            color: var(--gray);
+            font-weight: 500;
+        }
+
+        .schedule-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            display: grid;
+            grid-template-columns: 60px 1fr;
+            gap: 15px;
+        }
+
+        .schedule-item:last-child { border-bottom: none; }
+
+        .time {
+            font-weight: 700;
+            color: var(--secondary);
+            font-size: 0.95rem;
+            text-align: right;
+        }
+
+        .content h3 {
+            margin: 0 0 5px;
+            font-size: 1.05rem;
+            color: #222;
+        }
+
+        .location-tag {
+            display: inline-block;
+            font-size: 0.75rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-right: 5px;
+            font-weight: 600;
+        }
+        .tag-eat { background-color: #FFF3E0; color: #E65100; }
+        .tag-play { background-color: #E8F5E9; color: #2E7D32; }
+        .tag-cafe { background-color: #EFEBE9; color: #5D4037; }
+        .tag-sleep { background-color: #E3F2FD; color: #1565C0; }
+
+        .options {
+            background-color: #fafafa;
+            border-radius: 8px;
+            padding: 10px;
+            margin-top: 8px;
+            font-size: 0.9rem;
+        }
+        .opt-title { font-weight: bold; margin-right: 5px; }
+        .opt-a { color: var(--secondary); }
+        .opt-b { color: var(--accent); }
+
+        .tips {
+            margin-top: 8px;
+            font-size: 0.85rem;
+            color: #555;
+            background-color: #FFFDE7;
+            padding: 8px;
+            border-radius: 6px;
+            border-left: 3px solid #FFD600;
+        }
+
+        .alert {
+            background-color: #FFEBEE;
+            color: #C62828;
+            border-left: 3px solid #D32F2F;
+        }
+
+        .tesla-tip {
+            margin-top: 30px;
+            background-color: #222;
+            color: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 600px) {
+            .schedule-item { grid-template-columns: 1fr; gap: 5px; }
+            .time { text-align: left; font-size: 0.85rem; color: #888; margin-bottom: 2px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>🍊 제주 3박 4일 가족 여행</h1>
+        <p>42개월 아이와 함께하는 테슬라 여행</p>
+    </header>
+
+    <div class="day-card">
+        <div class="day-header">
+            <span class="day-title">1일차</span>
+            <span class="day-route">제주공항 ➔ 구좌(동쪽)</span>
+        </div>
+
+        <div class="schedule-item">
+            <div class="time">13:30</div>
+            <div class="content">
+                <h3><span class="location-tag tag-eat">도착</span>제주공항 & 렌터카 인수</h3>
+                <div class="tips">테슬라 모델3 하이랜드 인수 / 짐 싣고 신속 이동</div>
+            </div>
+        </div>
+
+        <div class="schedule-item">
+            <div class="time">15:00</div>
+            <div class="content">
+                <h3><span class="location-tag tag-eat">점심</span>제주에가면 (탑동)</h3>
+                <p>보말칼국수, 보말죽, 왕만두</p>
+                <div class="tips alert">⚠️ 브레이크타임(14:30~15:00) 확인 후 15시 맞춰 방문 추천. 아이 식사로 자극 없어 좋음.</div>
+            </div>
+        </div>
+
+        <div class="schedule-item">
+            <div class="time">16:00</div>
+            <div class="content">
+                <h3><span class="location-tag tag-cafe">간식</span>용꽈배기 & 커피파인더</h3>
+                <div class="tips alert">⚠️ 주차 매우 어려움 (제주시청 인근). 동승자만 내려서 픽업하거나 공영주차장 필수.</div>
+            </div>
+        </div>
+
+        <div class="schedule-item">
+            <div class="time">17:00</div>
+            <div class="content">
+                <h3><span class="location-tag tag-play">놀이</span>함덕 해수욕장</h3>
+                <p>숙소 가는 길목, 노을 질 무렵 가벼운 모래 산책</p>
+            </div>
+        </div>
+
+        <div class="schedule-item">
+            <div class="time">18:30</div>
+            <div class="content">
+                <h3><span class="location-tag tag-sleep">숙소</span>한동이스케이프 체크인</h3>
+            </div>
+        </div>
+
+        <div class="schedule-item">
+            <div class="time">19:00</div>
+            <div class="content">
+                <h3><span class="location-tag tag-eat">저녁</span>회 & 해산물 포장</h3>
+                <div class="options">
+                    <span class="opt-title opt-a">A. 구좌농협 하나로마트 (세화)</span> ★추천<br>
+                    - 광어/우럭/딱새우/문어 등 다양, 주차 편리<br>
+                    <span class="opt-title opt-b">B. 곰막식당 (구좌)</span><br>
+                    - 고등어회 전문, 깔끔한 포장
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="day-card">
+        <div class="day-header">
+            <span class="day-title">2일차</span>
+            <span class="day-route">구좌 ➔ 성산</span>
+        </div>
+
+        <div class="schedule-item">
+            <div class="time">11:00</div>
+            <div class="content">
+                <h3><span class="location-tag tag-eat">점심</span>구좌 맛집 선택</h3>
+                <div class="options">
+                    <span class="opt-title opt-a">A. 벵디 (평대리)</span><br>
+                    - 돌문어덮밥 & <b>수제 등심돈가스</b> (아이 추천)<br>
+                    <span class="opt-title opt-b">B. 명진전복 (구좌)</span><br>
+                    - 전복돌솥밥, 고등어구이 (건강식)
+                </div>
+                <div class="tips">테이블링 앱으로 대기 확인 필수</div>
+            </div>
+        </div>
+
+        <div class="schedule-item">
+            <div class="time">12:30</div>
+            <div class="content">
+                <h3><span class="location-tag tag-play">놀이</span>액티비티 선택</h3>
+                <div class="options">
+                    <span class="opt-title opt-a">A. 제주 레일바이크</span><br>
+                    - 반자동(힘 안 듦), 소떼/오름 풍경 (걷기 싫을 때)<br>
+                    <span class="opt-title opt-b">B. 비자림</span><br>
+                    - 평지 흙길 숲 산책 (유모차 가능)
+                </div>
+            </div>
+        </div>
+
+        <div class="schedule-item">
+            <div class="time">14:00</div>
+            <div class="content">
+                <h3><span class="location-tag tag-cafe">카페</span>휴식 및 커피</h3>
+                <div class="options">
+                    <span class="opt-title opt-a">A. 블루보틀 제주</span> (넓은 야외)<br>
+                    <span class="opt-title opt-b">B. 스타벅스 더제주송당파크R</span> (대형 정원)
+                </div>
+            </div>
+        </div>
+
+        <div class="schedule-item">
+            <div class="time">15:00</div>
+            <div class="content">
+                <h3><span class="location-tag tag-sleep">숙소</span>오션스퀘어 리조트 (성산)</h3>
+                <p>친구 가족 합류, 수영장 물놀이</p>
+                <div class="tips">⚡ 리조트 내 완속 충전기 확인 및 충전</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="day-card">
+        <div class="day-header">
+            <span class="day-title">3일차</span>
+            <span class="day-route">성산 ➔ 서귀포 ➔ 협재</span>
+        </div>
+
+        <div class="schedule-item">
+            <div class="time">12:00</div>
+            <div class="content">
+                <h3><span class="location-tag tag-eat">점심</span>남원읍 맛집 (이동 중)</h3>
+                <div class="options">
+                    <span class="opt-title opt-a">A. 동선제면가</span> 흑돼지 고기국수, 만두<br>
+                    <span class="opt-title opt-b">B. 테이블앤데스크</span> 가지튀김, 카레
+                </div>
+            </div>
+        </div>
+
+        <div class="schedule-item">
+            <div class="time">13:30</div>
+            <div class="content">
+                <h3><span class="location-tag tag-play">놀이</span>아이 맞춤형 코스</h3>
+                <div class="options">
+                    <span class="opt-title opt-a">A. 휴애리 자연생활공원</span> 동물 먹이주기<br>
+                    <span class="opt-title opt-b">B. 코코몽 에코파크</span> 캐릭터 테마파크
+                </div>
+            </div>
+        </div>
+
+        <div class="schedule-item">
+            <div class="time">15:30</div>
+            <div class="content">
+                <h3><span class="location-tag tag-play">방문</span>서귀포 친구네 집</h3>
+                <p>서귀포 제2청사 인근</p>
+                <div class="tips">⚡ 필요 시 서귀포 이마트 슈퍼차저 이용 (친구네 근처)</div>
+            </div>
+        </div>
+
+        <div class="schedule-item">
+            <div class="time">저녁</div>
+            <div class="content">
+                <h3><span class="location-tag tag-sleep">이동</span>협재 숙소로 이동</h3>
+                <p>소요시간 약 50분 (아이 취침 시간 활용)</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="day-card">
+        <div class="day-header">
+            <span class="day-title">4일차</span>
+            <span class="day-route">협재 ➔ 공항</span>
+        </div>
+
+        <div class="schedule-item">
+            <div class="time">10:20</div>
+            <div class="content">
+                <h3><span class="location-tag tag-eat">아점</span>바다제비 (한림)</h3>
+                <p>수제비, 칼국수, 한치파전</p>
+                <div class="tips alert">⚠️ 오픈런 추천. 주문 시 "아기 먹을 거라 고추/후추 빼주세요" 필수 요청.</div>
+            </div>
+        </div>
+
+        <div class="schedule-item">
+            <div class="time">11:30</div>
+            <div class="content">
+                <h3><span class="location-tag tag-play">놀이</span>마지막 액티비티</h3>
+                <div class="options">
+                    <span class="opt-title opt-a">A. 화조원 (애월)</span> ★추천<br>
+                    - 공항 가는 길목, 알파카/조류 직접 체험<br>
+                    <span class="opt-title opt-b">B. 금능/협재 해수욕장</span><br>
+                    - 바다 배경 사진 촬영, 모래놀이
+                </div>
+            </div>
+        </div>
+
+        <div class="schedule-item">
+            <div class="time">13:00</div>
+            <div class="content">
+                <h3><span class="location-tag tag-cafe">카페</span>호텔샌드 or 앤트러사이트</h3>
+                <p>협재 해변 뷰 또는 독특한 공장형 카페</p>
+            </div>
+        </div>
+
+        <div class="schedule-item">
+            <div class="time">14:00</div>
+            <div class="content">
+                <h3><span class="location-tag tag-eat">출발</span>공항 이동 및 렌터카 반납</h3>
+                <div class="tips">15:55 비행기 기준, 14:30 셔틀 탑승 목표</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tesla-tip">
+        <strong>🔋 테슬라 충전 꿀팁</strong>
+        <ul>
+            <li><strong>슈퍼차저:</strong> 제주시(공항 근처), 서귀포(월드컵경기장/이마트), 신화월드</li>
+            <li><strong>추천 전략:</strong> 3일차 친구네 방문 시 <b>서귀포 이마트 슈퍼차저</b>에서 완충하면 4일차 반납까지 아주 여유롭습니다.</li>
+            <li>숙소(오션스퀘어) 도착 시 완속 충전기 여부 먼저 확인하세요.</li>
+        </ul>
+    </div>
+</div>
+
+</body>
+</html>
