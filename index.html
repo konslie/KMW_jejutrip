@@ -3,74 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>제주 여행 플래너 (v2.0)</title>
+    <title>제주 여행 플래너 v2.3</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=efa94c869f5dad4c146096051410eafb&libraries=services"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=YOUR_KAKAO_APP_KEY&libraries=services"></script>
     <style>
         :root { --primary: #FF8C00; --secondary: #0077BE; --bg: #F2F4F7; --card-bg: #FFFFFF; }
-        body { font-family: 'Noto Sans KR', sans-serif; background-color: var(--bg); margin: 0; padding: 15px; padding-bottom: 100px; color: #333; }
-        header { text-align: center; background: linear-gradient(135deg, var(--primary), #FFA500); padding: 20px; border-radius: 15px; color: white; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: var(--bg); margin: 0; padding: 0; padding-bottom: 100px; color: #333; -webkit-tap-highlight-color: transparent; }
         
-        /* 지도 섹션 */
-        #kakao-map { width: 100%; height: 350px; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        header { text-align: center; background: linear-gradient(135deg, var(--primary), #FFA500); padding: 15px; color: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        header h1 { margin: 0; font-size: 1.2rem; }
 
-        /* 검색 섹션 */
-        .search-container { background: white; padding: 15px; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-        .search-input-group { display: flex; gap: 8px; margin-bottom: 10px; }
-        input[type="text"] { flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 8px; outline: none; }
-        button.search-btn { padding: 0 20px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
-        #search-results { max-height: 200px; overflow-y: auto; font-size: 0.9rem; border-top: 1px solid #eee; }
-        .result-item { padding: 10px; border-bottom: 1px solid #f9f9f9; display: flex; justify-content: space-between; align-items: center; }
-        .add-btn { background: var(--secondary); color: white; border: none; padding: 5px 10px; border-radius: 4px; font-size: 0.8rem; cursor: pointer; }
+        /* 지도 영역 */
+        #map-wrapper { position: sticky; top: 0; z-index: 1000; background: var(--bg); padding: 10px; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        #kakao-map { width: 100%; height: 350px; border-radius: 12px; transition: height 0.3s ease; background-color: #eee; }
+        #map-wrapper.shrink { padding: 5px 10px; }
+        #map-wrapper.shrink #kakao-map { height: 175px; }
 
-        /* 일정표 섹션 */
-        .day-section { margin-bottom: 30px; }
-        .day-title { font-size: 1.2rem; font-weight: bold; color: var(--secondary); margin-bottom: 10px; padding-left: 5px; }
-        .schedule-list { list-style: none; padding: 0; margin: 0; }
-        .schedule-card { background: white; margin-bottom: 10px; padding: 15px; border-radius: 12px; display: flex; align-items: center; gap: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); cursor: grab; transition: transform 0.2s; }
-        .schedule-card:active { cursor: grabbing; transform: scale(1.02); }
-        .handle { color: #ccc; font-size: 1.2rem; cursor: grab; }
-        .info { flex: 1; }
-        .info h4 { margin: 0; font-size: 1rem; color: #222; }
-        .info p { margin: 3px 0 0; font-size: 0.8rem; color: #888; }
-        .del-btn { background: #fee; color: #f44; border: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; line-height: 1; }
+        .container { padding: 0 15px; }
+
+        /* 검색창 */
+        .search-container { background: white; padding: 12px; border-radius: 15px; margin-top: 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .search-input-group { display: flex; gap: 8px; }
+        input[type="text"] { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 8px; outline: none; font-size: 0.9rem; }
+        button.search-btn { padding: 0 15px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        #search-results { max-height: 150px; overflow-y: auto; font-size: 0.85rem; margin-top: 5px; }
+        .result-item { padding: 8px; border-bottom: 1px solid #f9f9f9; display: flex; justify-content: space-between; align-items: center; }
 
         /* 옵션 탭 */
-        .tab-bar { display: flex; gap: 10px; margin-bottom: 15px; justify-content: center; }
-        .tab-btn { padding: 8px 16px; border: 1px solid #ddd; border-radius: 20px; background: white; cursor: pointer; font-weight: bold; }
+        .tab-bar { display: flex; gap: 8px; margin: 15px 0 10px 0; align-items: center; }
+        .tab-label { font-size: 0.85rem; font-weight: bold; color: #555; }
+        .tab-btn { padding: 6px 15px; border: 1px solid #ddd; border-radius: 20px; background: white; cursor: pointer; font-size: 0.8rem; font-weight: 500; transition: 0.2s; }
         .tab-btn.active { background: var(--secondary); color: white; border-color: var(--secondary); }
 
-        /* 하단 플로팅 버튼 (장소 추가용) */
-        .footer-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; border-top: 1px solid #eee; display: flex; justify-content: center; z-index: 1000; }
+        /* 일정 카드 디자인 */
+        .day-section { margin-bottom: 25px; }
+        .day-title { font-size: 1.1rem; font-weight: bold; color: var(--secondary); margin-bottom: 10px; border-left: 4px solid var(--secondary); padding-left: 8px; }
+        .schedule-list { list-style: none; padding: 0; margin: 0; }
+        .schedule-card { background: white; margin-bottom: 10px; padding: 12px; border-radius: 12px; display: flex; align-items: flex-start; gap: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.04); }
         
-        @media (max-width: 600px) { .schedule-card { padding: 12px; } }
+        .handle { color: #ddd; cursor: grab; font-size: 1.2rem; margin-top: 2px; }
+        .time-col { display: flex; flex-direction: column; align-items: center; }
+        .time-input { width: 45px; border: none; border-bottom: 2px solid #eee; font-size: 0.85rem; font-weight: bold; color: var(--secondary); text-align: center; outline: none; background: transparent; padding-bottom: 2px; }
+        .time-input:focus { border-bottom-color: var(--primary); }
+        
+        .info { flex: 1; overflow: hidden; display: flex; flex-direction: column; gap: 4px; }
+        .info h4 { margin: 0; font-size: 0.95rem; color: #222; }
+        .info p.desc { margin: 0; font-size: 0.8rem; color: #666; line-height: 1.3; }
+        
+        /* 팁(Tips) 작고 예쁘게 표시 */
+        .tips { font-size: 0.75rem; color: #555; background-color: #FFFDE7; padding: 6px 8px; border-radius: 6px; border-left: 3px solid #FFD600; line-height: 1.3; margin-top: 2px; }
+        .tips.alert { background-color: #FFEBEE; color: #C62828; border-left-color: #D32F2F; }
+        
+        .del-btn { background: #fff0f0; color: #ff4d4d; border: none; width: 28px; height: 28px; border-radius: 50%; cursor: pointer; font-weight: bold; flex-shrink: 0; }
     </style>
 </head>
 <body>
 
 <header>
     <h1>🌴 제주 여행 플래너</h1>
-    <p>42개월 아이와 함께하는 3박 4일</p>
 </header>
 
-<div id="kakao-map"></div>
-
-<div class="tab-bar">
-    <button class="tab-btn active" onclick="changeOption('A')">A옵션 일정</button>
-    <button class="tab-btn" onclick="changeOption('B')">B옵션 일정</button>
+<div id="map-wrapper">
+    <div id="kakao-map"></div>
 </div>
 
-<div class="search-container">
-    <div class="search-input-group">
-        <input type="text" id="keyword" placeholder="추가할 장소 검색 (예: 제주 아쿠아플라넷)" onkeypress="if(event.keyCode==13) searchPlace()">
-        <button class="search-btn" onclick="searchPlace()">검색</button>
+<div class="container">
+    <div class="search-container">
+        <div class="search-input-group">
+            <input type="text" id="keyword" placeholder="추가 장소 검색 (예: 제주 아쿠아플라넷)">
+            <button class="search-btn" onclick="searchPlace()">검색</button>
+        </div>
+        <div id="search-results"></div>
     </div>
-    <div id="search-results"></div>
-</div>
 
-<div id="itinerary-container">
+    <div class="tab-bar">
+        <span class="tab-label">📍 계획 선택:</span>
+        <button class="tab-btn active" onclick="changeOption('A')">A옵션</button>
+        <button class="tab-btn" onclick="changeOption('B')">B옵션</button>
     </div>
+
+    <div id="itinerary-container"></div>
+</div>
 
 <script>
     let map, ps;
@@ -78,33 +92,74 @@
     let polylines = [];
     let currentOption = 'A';
 
-    // 초기 데이터 (이름만 관리, 검색으로 위치 가져옴)
+    // 시간, 상세설명(desc), 팁(tips) 데이터를 모두 포함 (searchName은 카카오맵 검색용)
     const rawData = {
-        day1: ["제주국제공항", "제주에가면", "용꽈배기 본점", "커피파인더", "함덕해수욕장", "한동이스케이프"],
-        day2: { 
-            common: ["한동이스케이프", "오션스퀘어리조트"],
-            A: ["벵디", "제주레일바이크", "블루보틀 커피 제주"],
-            B: ["명진전복", "비자림", "스타벅스 더제주송당파크R점"]
+        day1: {
+            common: [
+                { name: "제주공항 (블루렌트카)", searchName: "제주국제공항", time: "14:00", desc: "도착 및 렌터카 인수", tips: "테슬라 모델3 하이랜드 인수 / 짐 싣고 신속 이동" },
+                { name: "제주에가면", searchName: "제주에가면", time: "15:00", desc: "보말칼국수, 보말죽, 왕만두", tips: "⚠️ 브레이크타임(14:30~15:00) 확인 후 15시 맞춰 방문 추천. 아이 식사로 자극 없어 좋음." },
+                { name: "용꽈배기 & 커피파인더", searchName: "커피파인더", time: "16:00", desc: "이동 중 간식 픽업", tips: "⚠️ 주차 매우 어려움 (제주시청 인근). 동승자만 내려서 픽업하거나 공영주차장 필수." },
+                { name: "함덕해수욕장", searchName: "함덕해수욕장", time: "17:00", desc: "숙소 가는 길목, 노을 질 무렵 가벼운 모래 산책", tips: "" },
+                { name: "한동이스케이프", searchName: "한동이스케이프", time: "18:30", desc: "숙소 체크인", tips: "" }
+            ],
+            A: [{ name: "구좌농협하나로마트 (세화)", searchName: "구좌농협하나로마트 본점", time: "19:00", desc: "광어/우럭/딱새우/문어 등 다양, 주차 편리", tips: "★ 회 포장 추천 옵션" }],
+            B: [{ name: "곰막식당", searchName: "곰막식당", time: "19:00", desc: "고등어회 전문, 깔끔한 포장", tips: "" }]
+        },
+        day2: {
+            common: [
+                { name: "한동이스케이프", searchName: "한동이스케이프", time: "10:30", desc: "체크아웃", tips: "" }, 
+                { name: "오션스퀘어리조트", searchName: "오션스퀘어리조트", time: "15:00", desc: "친구 가족 합류, 수영장 물놀이", tips: "⚡ 리조트 내 완속 충전기 확인 및 충전" }
+            ],
+            A: [
+                { name: "벵디 (평대리)", searchName: "벵디", time: "11:00", desc: "돌문어덮밥 & 수제 등심돈가스 (아이 추천)", tips: "테이블링 앱으로 대기 확인 필수" }, 
+                { name: "제주레일바이크", searchName: "제주레일바이크", time: "12:30", desc: "반자동(힘 안 듦), 소떼/오름 풍경 (걷기 싫을 때)", tips: "" }, 
+                { name: "블루보틀 제주", searchName: "블루보틀 커피 제주 카페", time: "14:00", desc: "넓은 야외 카페", tips: "" }
+            ],
+            B: [
+                { name: "명진전복 (구좌)", searchName: "명진전복", time: "11:00", desc: "전복돌솥밥, 고등어구이 (건강식)", tips: "테이블링 앱으로 대기 확인 필수" }, 
+                { name: "비자림", searchName: "비자림", time: "12:30", desc: "평지 흙길 숲 산책 (유모차 가능)", tips: "" }, 
+                { name: "스타벅스 더제주송당파크R", searchName: "스타벅스 더제주송당파크R점", time: "14:00", desc: "대형 정원", tips: "" }
+            ]
         },
         day3: {
-            common: ["오션스퀘어리조트", "서귀포시청 제2청사", "협재해수욕장"],
-            A: ["동선제면가", "휴애리자연생활공원"],
-            B: ["테이블앤데스크", "코코몽에코파크"]
+            common: [
+                { name: "오션스퀘어리조트", searchName: "오션스퀘어리조트", time: "11:00", desc: "체크아웃", tips: "" }, 
+                { name: "서귀포 친구네 집", searchName: "서귀포시청 제2청사", time: "15:30", desc: "서귀포 제2청사 인근", tips: "⚡ 필요 시 서귀포 이마트 슈퍼차저 이용 (친구네 근처)" }, 
+                { name: "협재 숙소로 이동", searchName: "협재해수욕장", time: "19:00", desc: "소요시간 약 50분 (아이 취침 시간 활용)", tips: "" }
+            ],
+            A: [
+                { name: "동선제면가", searchName: "동선제면가", time: "12:00", desc: "흑돼지 고기국수, 만두", tips: "" }, 
+                { name: "휴애리자연생활공원", searchName: "휴애리자연생활공원", time: "13:30", desc: "동물 먹이주기 체험", tips: "" }
+            ],
+            B: [
+                { name: "테이블앤데스크", searchName: "테이블앤데스크", time: "12:00", desc: "가지튀김, 카레", tips: "" }, 
+                { name: "코코몽에코파크", searchName: "코코몽에코파크", time: "13:30", desc: "캐릭터 테마파크", tips: "" }
+            ]
         },
-        day4: ["협재해수욕장", "바다제비", "화조원", "애월카페거리", "제주국제공항"]
+        day4: {
+            common: [
+                { name: "협재 숙소", searchName: "협재해수욕장", time: "10:00", desc: "체크아웃", tips: "" }, 
+                { name: "바다제비 (한림)", searchName: "바다제비", time: "10:20", desc: "수제비, 칼국수, 한치파전", tips: "⚠️ 오픈런 추천. 주문 시 '아기 먹을 거라 고추/후추 빼주세요' 필수 요청." }, 
+                { name: "제주공항 & 렌터카 반납", searchName: "제주국제공항", time: "14:00", desc: "공항 이동 및 수속", tips: "15:55 비행기 기준, 14:30 셔틀 탑승 목표" }
+            ],
+            A: [
+                { name: "화조원 (애월)", searchName: "화조원", time: "11:30", desc: "공항 가는 길목, 알파카/조류 직접 체험", tips: "★ 추천 옵션" }, 
+                { name: "호텔샌드", searchName: "호텔샌드", time: "13:00", desc: "협재 해변 뷰 카페", tips: "" }
+            ],
+            B: [
+                { name: "금능해수욕장", searchName: "금능해수욕장", time: "11:30", desc: "바다 배경 사진 촬영, 모래놀이", tips: "" }, 
+                { name: "앤트러사이트 한림", searchName: "앤트러사이트 한림", time: "13:00", desc: "독특한 공장형 카페", tips: "" }
+            ]
+        }
     };
 
-    // 현재 사용중인 동적 데이터
     let activePlan = { day1: [], day2: [], day3: [], day4: [] };
 
-    // 초기 데이터 로드
-    function initData() {
-        activePlan.day1 = [...rawData.day1];
-        activePlan.day2 = [...rawData.day2.common, ...rawData.day2[currentOption]];
-        activePlan.day3 = [...rawData.day3.common, ...rawData.day3[currentOption]];
-        activePlan.day4 = [...rawData.day4];
-        renderAll();
-    }
+    window.onscroll = function() {
+        const wrapper = document.getElementById('map-wrapper');
+        if (window.pageYOffset > 40) { wrapper.classList.add('shrink'); } 
+        else { wrapper.classList.remove('shrink'); }
+    };
 
     window.onload = function() {
         const container = document.getElementById('kakao-map');
@@ -113,137 +168,112 @@
         initData();
     };
 
-    // 옵션 변경 (A/B)
+    function initData() {
+        // 모든 일차에 common과 현재 옵션(A/B)을 합쳐서 배열 생성
+        activePlan.day1 = JSON.parse(JSON.stringify([...rawData.day1.common, ...rawData.day1[currentOption]]));
+        activePlan.day2 = JSON.parse(JSON.stringify([...rawData.day2.common, ...rawData.day2[currentOption]]));
+        activePlan.day3 = JSON.parse(JSON.stringify([...rawData.day3.common, ...rawData.day3[currentOption]]));
+        activePlan.day4 = JSON.parse(JSON.stringify([...rawData.day4.common, ...rawData.day4[currentOption]]));
+        renderAll();
+    }
+
     function changeOption(opt) {
         currentOption = opt;
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         event.target.classList.add('active');
-        initData(); // 데이터를 다시 초기화하여 로드
+        initData();
     }
 
-    // 장소 검색
-    function searchPlace() {
-        const k = document.getElementById('keyword').value;
-        if(!k.trim()) return;
-        
-        ps.keywordSearch(k + " 제주", (data, status) => {
-            const resDiv = document.getElementById('search-results');
-            resDiv.innerHTML = "";
-            if (status === kakao.maps.services.Status.OK) {
-                data.slice(0, 5).forEach(item => {
-                    resDiv.innerHTML += `
-                        <div class="result-item">
-                            <div><strong>${item.place_name}</strong><br><small>${item.address_name}</small></div>
-                            <select id="day-select-${item.id}">
-                                <option value="day1">1일차</option><option value="day2">2일차</option>
-                                <option value="day3">3일차</option><option value="day4">4일차</option>
-                            </select>
-                            <button class="add-btn" onclick="addToList('${item.place_name}', '${item.id}')">추가</button>
-                        </div>`;
-                });
-            } else { resDiv.innerHTML = "<p style='padding:10px;'>검색 결과가 없습니다.</p>"; }
-        });
-    }
-
-    function addToList(name, id) {
-        const day = document.getElementById(`day-select-${id}`).value;
-        activePlan[day].push(name);
-        renderAll();
-        document.getElementById('keyword').value = "";
-        document.getElementById('search-results').innerHTML = "";
-    }
-
-    function deleteItem(day, index) {
-        activePlan[day].splice(index, 1);
-        renderAll();
-    }
-
-    // 화면 및 지도 갱신
-    function renderAll() {
-        renderList();
-        updateMap();
-    }
-
-    // 리스트 렌더링 + 드래그 앤 드롭 설정
     function renderList() {
         const container = document.getElementById('itinerary-container');
         container.innerHTML = "";
-
         ['day1', 'day2', 'day3', 'day4'].forEach((day, dIdx) => {
             const section = document.createElement('div');
             section.className = 'day-section';
-            section.innerHTML = `<div class="day-title">${dIdx+1}일차 일정</div><ul id="list-${day}" class="schedule-list"></ul>`;
+            section.innerHTML = `<div class="day-title">${dIdx+1}일차</div><ul id="list-${day}" class="schedule-list"></ul>`;
             container.appendChild(section);
 
             const listEl = document.getElementById(`list-${day}`);
-            activePlan[day].forEach((item, iIdx) => {
-                listEl.innerHTML += `
-                    <li class="schedule-card" data-day="${day}" data-index="${iIdx}">
-                        <div class="handle">☰</div>
-                        <div class="info"><h4>${item}</h4><p>${dIdx+1}일차 방문</p></div>
-                        <button class="del-btn" onclick="deleteItem('${day}', ${iIdx})">×</button>
-                    </li>`;
+            
+            // 시간순 정렬
+            activePlan[day].sort((a,b) => (a.time > b.time ? 1 : -1)).forEach((item, iIdx) => {
+                const li = document.createElement('li');
+                li.className = 'schedule-card';
+                
+                // 상세설명 및 팁 렌더링
+                const descHtml = item.desc ? `<p class="desc">${item.desc}</p>` : '';
+                let tipsHtml = '';
+                if (item.tips) {
+                    const isAlert = item.tips.includes('⚠️');
+                    tipsHtml = `<div class="tips ${isAlert ? 'alert' : ''}">${item.tips}</div>`;
+                }
+
+                li.innerHTML = `
+                    <div class="handle">☰</div>
+                    <div class="time-col">
+                        <input type="text" class="time-input" value="${item.time}" onchange="updateTime('${day}', ${iIdx}, this.value)">
+                    </div>
+                    <div class="info">
+                        <h4>${item.name}</h4>
+                        ${descHtml}
+                        ${tipsHtml}
+                    </div>
+                    <button class="del-btn" onclick="deleteItem('${day}', ${iIdx})">×</button>`;
+                listEl.appendChild(li);
             });
 
-            // 드래그 앤 드롭 활성화
             new Sortable(listEl, {
-                handle: '.handle',
-                animation: 150,
+                handle: '.handle', animation: 150,
                 onEnd: function (evt) {
-                    const day = evt.from.id.replace('list-', '');
-                    const oldIdx = evt.oldIndex;
-                    const newIdx = evt.newIndex;
-                    const movedItem = activePlan[day].splice(oldIdx, 1)[0];
-                    activePlan[day].splice(newIdx, 0, movedItem);
-                    updateMap(); // 순서 변경 시 지도 즉시 갱신
+                    const dayKey = evt.from.id.replace('list-', '');
+                    const movedItem = activePlan[dayKey].splice(evt.oldIndex, 1)[0];
+                    activePlan[dayKey].splice(evt.newIndex, 0, movedItem);
+                    updateMap();
                 }
             });
         });
     }
 
-    // 지도 마커 및 선 갱신
+    function updateTime(day, index, newTime) { activePlan[day][index].time = newTime; updateMap(); }
+
     async function updateMap() {
         markers.forEach(m => m.setMap(null));
         polylines.forEach(p => p.setMap(null));
         markers = []; polylines = [];
-
         const colors = ['#FF8C00', '#228B22', '#0077BE', '#800080'];
-        
         for (let i = 0; i < 4; i++) {
             const dayKey = `day${i+1}`;
             const path = [];
-            
-            // 순차적 검색을 위해 for...of 사용 (비동기 처리)
-            for (const name of activePlan[dayKey]) {
-                const coords = await getCoords(name);
+            for (const item of activePlan[dayKey]) {
+                const query = item.searchName || item.name;
+                const coords = await getCoords(query);
                 if (coords) {
                     path.push(coords);
                     const marker = new kakao.maps.Marker({ map: map, position: coords });
                     markers.push(marker);
                 }
             }
-
             if (path.length > 1) {
-                const poly = new kakao.maps.Polyline({
-                    path: path, strokeWeight: 4, strokeColor: colors[i], strokeOpacity: 0.8
-                });
+                const poly = new kakao.maps.Polyline({ path: path, strokeWeight: 4, strokeColor: colors[i], strokeOpacity: 0.7 });
                 poly.setMap(map);
                 polylines.push(poly);
             }
         }
     }
 
-    // 장소명으로 좌표 가져오기 (Promise화)
     function getCoords(name) {
         return new Promise((resolve) => {
-            ps.keywordSearch(name + " 제주", (data, status) => {
-                if (status === kakao.maps.services.Status.OK) {
-                    resolve(new kakao.maps.LatLng(data[0].y, data[0].x));
-                } else resolve(null);
+            const query = name.includes("제주") ? name : name + " 제주";
+            ps.keywordSearch(query, (data, status) => {
+                if (status === kakao.maps.services.Status.OK) { resolve(new kakao.maps.LatLng(data[0].y, data[0].x)); } 
+                else resolve(null);
             });
         });
     }
-</script>
 
-</body>
-</html>
+    function searchPlace() {
+        const k = document.getElementById('keyword').value;
+        if(!k.trim()) return;
+        ps.keywordSearch(k + " 제주", (data, status) => {
+            const resDiv = document.getElementById('search-results');
+            resDiv.innerHTML
