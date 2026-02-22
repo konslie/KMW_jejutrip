@@ -1,0 +1,445 @@
+/* src/style.css */
+@import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;700&display=swap');
+
+:root {
+    --primary: #FF7E36;
+    --primary-hover: #E86A24;
+    --secondary: #2C8CFC;
+    --bg: #F8F9FA;
+    --card-bg: #FFFFFF;
+    --text-main: #111111;
+    --text-muted: #666666;
+    --border-color: #EAECEF;
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+body {
+    font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+    background-color: var(--bg);
+    margin: 0;
+    padding: 0;
+    padding-bottom: 120px;
+    color: var(--text-main);
+    -webkit-tap-highlight-color: transparent;
+}
+
+header {
+    text-align: center;
+    background: linear-gradient(135deg, var(--primary), #FFA500);
+    padding: 20px 15px;
+    color: white;
+    box-shadow: 0 2px 10px rgba(255, 126, 54, 0.2);
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    margin-bottom: 15px;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+/* 지도 영역 */
+#map-wrapper {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: var(--bg);
+    padding: 10px 15px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(10px);
+    background-color: rgba(248, 249, 250, 0.9);
+}
+
+#kakao-map {
+    width: 100%;
+    height: 350px;
+    border-radius: 16px;
+    transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background-color: #e5e5e5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    text-align: center;
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+}
+
+#map-wrapper.shrink {
+    padding: 5px 15px;
+}
+#map-wrapper.shrink #kakao-map {
+    height: 180px;
+}
+
+.container {
+    padding: 0 15px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* 지도 동선 필터 */
+.map-filter-container {
+    background: var(--card-bg);
+    padding: 16px;
+    border-radius: 16px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-sm);
+    text-align: center;
+}
+.map-filter-label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 12px;
+    display: block;
+}
+.radio-group {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.radio-group input[type="radio"] {
+    display: none;
+}
+.radio-group label {
+    padding: 8px 16px;
+    background: #F0F2F5;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+.radio-group label:hover {
+    background: #E4E6E9;
+}
+.radio-group input[type="radio"]:checked + label {
+    background: var(--secondary);
+    color: white;
+    box-shadow: 0 4px 10px rgba(44, 140, 252, 0.3);
+}
+
+/* 검색창 UX 개선 */
+.search-container {
+    background: var(--card-bg);
+    padding: 16px;
+    border-radius: 16px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+}
+.search-input-group {
+    display: flex;
+    gap: 10px;
+}
+input[type="text"] {
+    flex: 1;
+    padding: 12px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    outline: none;
+    font-size: 0.95rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    background: #F8F9FA;
+}
+input[type="text"]:focus {
+    border-color: var(--primary);
+    background: white;
+    box-shadow: 0 0 0 3px rgba(255, 126, 54, 0.1);
+}
+button.search-btn {
+    padding: 0 18px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s ease;
+}
+button.search-btn:hover {
+    background: var(--primary-hover);
+}
+button.search-btn:active {
+    transform: scale(0.96);
+}
+button.reset-btn {
+    padding: 0 16px;
+    background: #F0F2F5;
+    color: var(--text-muted);
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+button.reset-btn:hover {
+    background: #E4E6E9;
+    color: var(--text-main);
+}
+#search-results {
+    max-height: 220px;
+    overflow-y: auto;
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+.result-item {
+    padding: 12px;
+    border-radius: 12px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.2s ease;
+}
+.result-item:last-child {
+    border-bottom: none;
+}
+.result-item:hover {
+    background: #F8F9FA;
+}
+.result-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.result-info strong {
+    color: var(--text-main);
+    font-size: 0.95rem;
+}
+.result-address {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+.add-btn {
+    background: var(--secondary);
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 6px rgba(44, 140, 252, 0.2);
+}
+.add-btn:hover {
+    background: #207BE0;
+    transform: translateY(-1px);
+}
+.add-btn:active {
+    transform: translateY(1px);
+}
+
+/* 일정 카드 디자인 */
+.day-section {
+    margin-bottom: 30px;
+    animation: fadeIn 0.4s ease-out;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.day-header-wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding: 0 4px;
+}
+.day-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin: 0;
+    border-left: 4px solid;
+    padding-left: 10px;
+    letter-spacing: -0.3px;
+}
+
+/* 일차별 개별 A/B 옵션 탭 */
+.day-tabs {
+    display: flex;
+    gap: 4px;
+    background: #F0F2F5;
+    border-radius: 24px;
+    padding: 4px;
+}
+.day-tab-btn {
+    padding: 6px 14px;
+    border: none;
+    border-radius: 20px;
+    background: transparent;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    transition: all 0.2s ease;
+}
+.day-tab-btn.active {
+    background: var(--theme-color);
+    color: white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.schedule-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.schedule-card {
+    background: var(--card-bg);
+    padding: 16px;
+    border-radius: 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.schedule-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.handle {
+    color: #C1C6CD;
+    cursor: grab;
+    font-size: 1.2rem;
+    margin-top: 4px;
+    padding: 0 4px;
+}
+.handle:active {
+    cursor: grabbing;
+}
+
+.time-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.time-input {
+    width: 48px;
+    border: none;
+    border-bottom: 2px solid #EAECEF;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-align: center;
+    outline: none;
+    background: transparent;
+    padding-bottom: 4px;
+    transition: border-color 0.2s ease;
+}
+.time-input:focus {
+    border-bottom-color: var(--primary);
+}
+
+.info {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.info h4 {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--text-main);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+.info p.desc {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+/* 대안 존재 뱃지 및 팁 디자인 */
+.alt-badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    color: #E53E3E;
+    border: 1px solid #FC8181;
+    background-color: #FFF5F5;
+    padding: 2px 6px;
+    border-radius: 6px;
+    font-weight: 700;
+}
+.tips {
+    font-size: 0.8rem;
+    color: #744210;
+    background-color: #FFFFF0;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border-left: 3px solid #ECC94B;
+    line-height: 1.4;
+    margin-top: 4px;
+}
+.tips.alert {
+    background-color: #FFF5F5;
+    color: #9B2C2C;
+    border-left-color: #F56565;
+}
+
+.del-btn {
+    background: #FFF5F5;
+    color: #E53E3E;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+.del-btn:hover {
+    background: #FED7D7;
+    transform: scale(1.1);
+}
+
+/* 커스텀 오버레이 (출발점 표시용) */
+.custom-marker-label {
+    padding: 6px 12px;
+    background: var(--card-bg);
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 800;
+    box-shadow: var(--shadow-md);
+    position: relative;
+    top: -50px;
+    white-space: nowrap;
+}
+.custom-marker-label::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    margin-left: -6px;
+    border-width: 6px 6px 0;
+    border-style: solid;
+    border-color: var(--card-bg) transparent transparent transparent;
+}
