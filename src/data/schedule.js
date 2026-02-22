@@ -72,7 +72,7 @@ export function initData(renderCallback, updateMapCallback) {
         let currentOpt = dayOptions[day];
         let optionList = JSON.parse(JSON.stringify(rawData[day][currentOpt] || []));
         optionList.forEach(item => item.hasAlt = true);
-        
+
         let userAdded = (activePlan[day] || []).filter(item => item.desc === "사용자 추가 일정");
         activePlan[day] = [...commonList, ...optionList, ...userAdded];
     });
@@ -98,8 +98,8 @@ export function deleteItem(day, index, renderCallback, updateMapCallback) {
     if (updateMapCallback) updateMapCallback();
 }
 
-export function addToList(targetDay, name, renderCallback, updateMapCallback) {
-    activePlan[targetDay].push({ name: name, searchName: name, time: "12:00", desc: "사용자 추가 일정", tips: "" });
+export function addToList(targetDay, time, name, renderCallback, updateMapCallback) {
+    activePlan[targetDay].push({ name: name, searchName: name, time: time || "12:00", desc: "사용자 추가 일정", tips: "" });
     if (renderCallback) renderCallback();
     if (updateMapCallback) updateMapCallback();
 }

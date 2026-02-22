@@ -28,13 +28,22 @@ export function searchPlace(renderCallback) {
         resDiv.innerHTML = "";
 
         if (status === kakao.maps.services.Status.OK) {
-            const resultsHtml = data.slice(0, 3).map(item => `
+            const resultsHtml = data.slice(0, 3).map((item, idx) => `
                 <div class="result-item">
                     <div class="result-info">
                         <strong>${item.place_name}</strong>
                         <span class="result-address">${item.address_name}</span>
+                        <div class="add-controls">
+                            <select id="sel-day-${idx}" class="sel-day">
+                                <option value="day1">1일차</option>
+                                <option value="day2">2일차</option>
+                                <option value="day3">3일차</option>
+                                <option value="day4">4일차</option>
+                            </select>
+                            <input type="time" id="sel-time-${idx}" class="sel-time" value="12:00">
+                            <button class="add-btn" data-placename="${item.place_name}" data-idx="${idx}">추가</button>
+                        </div>
                     </div>
-                    <button class="add-btn" data-placename="${item.place_name}">추가</button>
                 </div>
             `).join('');
 
@@ -44,8 +53,12 @@ export function searchPlace(renderCallback) {
             document.querySelectorAll('.add-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     const placeName = e.target.getAttribute('data-placename');
-                    const targetDay = currentMapFilter === 'all' ? 'day1' : currentMapFilter;
-                    addToList(targetDay, placeName, renderCallback, updateMap);
+                    const idx = e.target.getAttribute('data-idx');
+
+                    const selectedDay = document.getElementById(`sel-day-${idx}`).value;
+                    const selectedTime = document.getElementById(`sel-time-${idx}`).value;
+
+                    addToList(selectedDay, selectedTime, placeName, renderCallback, updateMap);
                     clearSearch();
                 });
             });
