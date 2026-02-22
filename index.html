@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>제주 여행 플래너 v2.3</title>
+    <title>제주 여행 플래너 v2.4 (안정화 버전)</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=YOUR_KAKAO_APP_KEY&libraries=services"></script>
+    <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=41ffb381e0c7d6b03dba5cb7564a234e&libraries=services"></script>
     <style>
         :root { --primary: #FF8C00; --secondary: #0077BE; --bg: #F2F4F7; --card-bg: #FFFFFF; }
         body { font-family: 'Noto Sans KR', sans-serif; background-color: var(--bg); margin: 0; padding: 0; padding-bottom: 100px; color: #333; -webkit-tap-highlight-color: transparent; }
@@ -16,7 +16,7 @@
 
         /* 지도 영역 */
         #map-wrapper { position: sticky; top: 0; z-index: 1000; background: var(--bg); padding: 10px; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        #kakao-map { width: 100%; height: 350px; border-radius: 12px; transition: height 0.3s ease; background-color: #eee; }
+        #kakao-map { width: 100%; height: 350px; border-radius: 12px; transition: height 0.3s ease; background-color: #e5e5e5; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; color: #666; text-align: center; }
         #map-wrapper.shrink { padding: 5px 10px; }
         #map-wrapper.shrink #kakao-map { height: 175px; }
 
@@ -51,11 +51,13 @@
         .info h4 { margin: 0; font-size: 0.95rem; color: #222; }
         .info p.desc { margin: 0; font-size: 0.8rem; color: #666; line-height: 1.3; }
         
-        /* 팁(Tips) 작고 예쁘게 표시 */
+        /* 팁 디자인 */
         .tips { font-size: 0.75rem; color: #555; background-color: #FFFDE7; padding: 6px 8px; border-radius: 6px; border-left: 3px solid #FFD600; line-height: 1.3; margin-top: 2px; }
         .tips.alert { background-color: #FFEBEE; color: #C62828; border-left-color: #D32F2F; }
         
         .del-btn { background: #fff0f0; color: #ff4d4d; border: none; width: 28px; height: 28px; border-radius: 50%; cursor: pointer; font-weight: bold; flex-shrink: 0; }
+        
+        #error-log { color: red; font-size: 0.8rem; padding: 10px; text-align: center; }
     </style>
 </head>
 <body>
@@ -65,7 +67,7 @@
 </header>
 
 <div id="map-wrapper">
-    <div id="kakao-map"></div>
+    <div id="kakao-map">지도를 불러오는 중입니다...</div>
 </div>
 
 <div class="container">
@@ -83,6 +85,7 @@
         <button class="tab-btn" onclick="changeOption('B')">B옵션</button>
     </div>
 
+    <div id="error-log"></div>
     <div id="itinerary-container"></div>
 </div>
 
@@ -91,8 +94,9 @@
     let markers = [];
     let polylines = [];
     let currentOption = 'A';
+    let isMapLoaded = false;
 
-    // 시간, 상세설명(desc), 팁(tips) 데이터를 모두 포함 (searchName은 카카오맵 검색용)
+    // 전체 일정 데이터
     const rawData = {
         day1: {
             common: [
@@ -161,20 +165,38 @@
         else { wrapper.classList.remove('shrink'); }
     };
 
+    // 로딩 시: 에러가 나도 리스트는 무조건 먼저 그리도록 분리
     window.onload = function() {
-        const container = document.getElementById('kakao-map');
-        map = new kakao.maps.Map(container, { center: new kakao.maps.LatLng(33.38, 126.55), level: 10 });
-        ps = new kakao.maps.services.Places();
-        initData();
+        try {
+            // 1. UI 및 데이터 초기화 (지도가 없어도 일정표는 뜹니다)
+            initData();
+
+            // 2. 카카오맵 객체 확인 및 초기화
+            if (typeof kakao !== 'undefined' && kakao.maps) {
+                kakao.maps.load(function() {
+                    const container = document.getElementById('kakao-map');
+                    container.innerHTML = ""; // 로딩 문구 제거
+                    map = new kakao.maps.Map(container, { center: new kakao.maps.LatLng(33.38, 126.55), level: 10 });
+                    ps = new kakao.maps.services.Places();
+                    isMapLoaded = true;
+                    updateMap(); // 맵이 성공적으로 로드되면 선 긋기
+                });
+            } else {
+                throw new Error("카카오맵 API를 불러오지 못했습니다.");
+            }
+        } catch (error) {
+            console.error(error);
+            document.getElementById('kakao-map').innerHTML = `지도를 불러올 수 없습니다.<br>GitHub Pages 도메인 등록을 확인해주세요.`;
+        }
     };
 
     function initData() {
-        // 모든 일차에 common과 현재 옵션(A/B)을 합쳐서 배열 생성
         activePlan.day1 = JSON.parse(JSON.stringify([...rawData.day1.common, ...rawData.day1[currentOption]]));
         activePlan.day2 = JSON.parse(JSON.stringify([...rawData.day2.common, ...rawData.day2[currentOption]]));
         activePlan.day3 = JSON.parse(JSON.stringify([...rawData.day3.common, ...rawData.day3[currentOption]]));
         activePlan.day4 = JSON.parse(JSON.stringify([...rawData.day4.common, ...rawData.day4[currentOption]]));
-        renderAll();
+        renderList();
+        if(isMapLoaded) updateMap();
     }
 
     function changeOption(opt) {
@@ -195,12 +217,11 @@
 
             const listEl = document.getElementById(`list-${day}`);
             
-            // 시간순 정렬
+            // 시간순 정렬하여 렌더링
             activePlan[day].sort((a,b) => (a.time > b.time ? 1 : -1)).forEach((item, iIdx) => {
                 const li = document.createElement('li');
                 li.className = 'schedule-card';
                 
-                // 상세설명 및 팁 렌더링
                 const descHtml = item.desc ? `<p class="desc">${item.desc}</p>` : '';
                 let tipsHtml = '';
                 if (item.tips) {
@@ -222,25 +243,35 @@
                 listEl.appendChild(li);
             });
 
-            new Sortable(listEl, {
-                handle: '.handle', animation: 150,
-                onEnd: function (evt) {
-                    const dayKey = evt.from.id.replace('list-', '');
-                    const movedItem = activePlan[dayKey].splice(evt.oldIndex, 1)[0];
-                    activePlan[dayKey].splice(evt.newIndex, 0, movedItem);
-                    updateMap();
-                }
-            });
+            // 드래그 앤 드롭 안전 적용
+            if (typeof Sortable !== 'undefined') {
+                new Sortable(listEl, {
+                    handle: '.handle', animation: 150,
+                    onEnd: function (evt) {
+                        const dayKey = evt.from.id.replace('list-', '');
+                        const movedItem = activePlan[dayKey].splice(evt.oldIndex, 1)[0];
+                        activePlan[dayKey].splice(evt.newIndex, 0, movedItem);
+                        if(isMapLoaded) updateMap();
+                    }
+                });
+            }
         });
     }
 
-    function updateTime(day, index, newTime) { activePlan[day][index].time = newTime; updateMap(); }
+    function updateTime(day, index, newTime) { 
+        activePlan[day][index].time = newTime; 
+        renderList();
+        if(isMapLoaded) updateMap(); 
+    }
 
     async function updateMap() {
+        if (!isMapLoaded) return;
+        
         markers.forEach(m => m.setMap(null));
         polylines.forEach(p => p.setMap(null));
         markers = []; polylines = [];
         const colors = ['#FF8C00', '#228B22', '#0077BE', '#800080'];
+        
         for (let i = 0; i < 4; i++) {
             const dayKey = `day${i+1}`;
             const path = [];
@@ -263,6 +294,7 @@
 
     function getCoords(name) {
         return new Promise((resolve) => {
+            if(!ps) { resolve(null); return; }
             const query = name.includes("제주") ? name : name + " 제주";
             ps.keywordSearch(query, (data, status) => {
                 if (status === kakao.maps.services.Status.OK) { resolve(new kakao.maps.LatLng(data[0].y, data[0].x)); } 
@@ -272,8 +304,36 @@
     }
 
     function searchPlace() {
+        if(!isMapLoaded) { alert("지도가 로드되지 않아 검색할 수 없습니다."); return; }
         const k = document.getElementById('keyword').value;
         if(!k.trim()) return;
         ps.keywordSearch(k + " 제주", (data, status) => {
             const resDiv = document.getElementById('search-results');
-            resDiv.innerHTML
+            resDiv.innerHTML = "";
+            if (status === kakao.maps.services.Status.OK) {
+                data.slice(0, 3).forEach(item => {
+                    resDiv.innerHTML += `<div class="result-item"><div><strong>${item.place_name}</strong></div>
+                        <button class="add-btn" style="background:var(--secondary);color:white;border:none;padding:5px 8px;border-radius:4px;font-size:0.75rem;" onclick="addToList('${item.place_name}')">추가</button></div>`;
+                });
+            } else {
+                resDiv.innerHTML = `<div style="padding:10px;">검색 결과가 없습니다.</div>`;
+            }
+        });
+    }
+
+    function addToList(name) { 
+        activePlan.day1.push({ name: name, searchName: name, time: "12:00", desc: "사용자 추가 일정", tips: "" }); 
+        initData(); // 옵션 합칠 때 충돌을 피하기 위해 리렌더링
+        document.getElementById('keyword').value = ""; 
+        document.getElementById('search-results').innerHTML = ""; 
+    }
+    
+    function deleteItem(day, index) { 
+        activePlan[day].splice(index, 1); 
+        renderList();
+        if(isMapLoaded) updateMap(); 
+    }
+</script>
+
+</body>
+</html>
