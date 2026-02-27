@@ -36,32 +36,32 @@ window.onload = async function () {
             });
         });
 
-        // Admin Restore Easter Egg (5 Clicks on Title)
-        const titleEl = document.getElementById('main-title');
-        let clickCount = 0;
-        let clickTimer = null;
+        // Admin Restore Easter Egg (Double Click on '플래너')
+        const restoreEl = document.getElementById('admin-restore-trigger');
+        let restoreClickCount = 0;
+        let restoreTimer = null;
 
-        if (titleEl) {
-            titleEl.addEventListener('click', async () => {
-                clickCount++;
+        if (restoreEl) {
+            restoreEl.addEventListener('click', async () => {
+                restoreClickCount++;
 
-                if (clickTimer) clearTimeout(clickTimer);
+                if (restoreTimer) clearTimeout(restoreTimer);
 
-                // Reset click count if no click happens within 2 seconds
-                clickTimer = setTimeout(() => {
-                    clickCount = 0;
-                }, 2000);
+                // Reset click count if no click happens within 1.5 seconds
+                restoreTimer = setTimeout(() => {
+                    restoreClickCount = 0;
+                }, 1500);
 
-                if (clickCount >= 5) {
-                    clickCount = 0; // Reset just in case
-                    if (confirm("🤫 [관리자 모드]\n정말 관리자 초기 일정으로 덮어쓰시겠습니까? 모든 변경 사항이 즉시 사라집니다.")) {
+                if (restoreClickCount >= 2) {
+                    restoreClickCount = 0; // Reset just in case
+                    if (confirm("🤫 [관리자 모드: 복구]\n정말 관리자 초기 일정으로 되돌리시겠습니까? 모든 변경 사항이 즉시 사라집니다.")) {
                         await triggerAdminRestore(renderList, updateMap);
                     }
                 }
             });
         }
 
-        // Admin Save Easter Egg (5 Clicks on Map Filter Label)
+        // Admin Save Easter Egg (Double Click on Palm Tree)
         const saveEl = document.getElementById('admin-save-trigger');
         let saveClickCount = 0;
         let saveTimer = null;
@@ -71,11 +71,11 @@ window.onload = async function () {
                 saveClickCount++;
                 if (saveTimer) clearTimeout(saveTimer);
 
-                saveTimer = setTimeout(() => { saveClickCount = 0; }, 2000);
+                saveTimer = setTimeout(() => { saveClickCount = 0; }, 1500);
 
-                if (saveClickCount >= 5) {
+                if (saveClickCount >= 2) {
                     saveClickCount = 0;
-                    if (confirm("🚨 [관리자 저장 모드]\n현재 화면에 보이는 일정을 '새로운 관리자 원본'으로 덮어쓰시겠습니까?\n(다음에 누군가 복구를 시도하면 이 상태로 돌아오게 됩니다.)")) {
+                    if (confirm("🚨 [관리자 모드: 덮어쓰기]\n현재 화면에 보이는 일정을 '새로운 관리자 원본'으로 덮어쓰시겠습니까?\n(다음에 누군가 복구를 시도하면 현재 상태로 돌아오게 됩니다.)")) {
                         await triggerAdminSave();
                     }
                 }
