@@ -62,7 +62,7 @@ export const rawData = {
     }
 };
 
-import { initializeFirestorePlan, syncPlanToFirestore, loadPlanFromFirestore, subscribeToPlanChanges, restoreAdminPlan } from '../api/firebase.js';
+import { initializeFirestorePlan, syncPlanToFirestore, loadPlanFromFirestore, subscribeToPlanChanges, restoreAdminPlan, overwriteAdminPlan } from '../api/firebase.js';
 
 // Application State
 export let activePlan = { day1: [], day2: [], day3: [], day4: [] };
@@ -156,5 +156,14 @@ export async function triggerAdminRestore(renderCallback, updateMapCallback) {
         alert("일정이 관리자 지정 초기 상태로 복구되었습니다!");
     } else {
         alert("복구에 실패했거나 백엔드에 초기 데이터가 없습니다.");
+    }
+}
+
+export async function triggerAdminSave() {
+    const success = await overwriteAdminPlan(activePlan, dayOptions);
+    if (success) {
+        alert("현재 화면의 일정이 새로운 관리자(원본) 일정으로 저장되었습니다!");
+    } else {
+        alert("관리자 일정 저장에 실패했습니다.");
     }
 }

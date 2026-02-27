@@ -33,9 +33,6 @@ header {
     border-bottom-left-radius: 16px;
     border-bottom-right-radius: 16px;
     margin-bottom: 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 }
 
 header h1 {
@@ -43,21 +40,9 @@ header h1 {
     font-size: 1.4rem;
     font-weight: 700;
     letter-spacing: -0.5px;
-}
-
-.admin-restore-btn {
-    background: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    color: white;
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-size: 0.85rem;
-    cursor: pointer;
-    transition: background 0.2s ease;
-}
-
-.admin-restore-btn:hover {
-    background: rgba(255, 255, 255, 0.3);
+    cursor: default;
+    user-select: none;
+    /* Prevents text selection on rapid clicks */
 }
 
 /* 지도 영역 */

@@ -89,3 +89,20 @@ export async function restoreAdminPlan() {
         return null;
     }
 }
+
+// Force overwrite the admin baseline with a specific activePlan state.
+export async function overwriteAdminPlan(activePlan, dayOptions) {
+    try {
+        isInternalUpdate = true;
+        await setDoc(docRef, {
+            adminPlan: activePlan,
+            adminDayOptions: dayOptions
+        }, { merge: true });
+
+        setTimeout(() => { isInternalUpdate = false; }, 800);
+        return true;
+    } catch (e) {
+        console.error("Error overwriting admin plan:", e);
+        return false;
+    }
+}
