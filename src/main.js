@@ -36,6 +36,21 @@ window.onload = async function () {
             });
         });
 
+        // Usage Guide Toggle
+        const guideToggle = document.getElementById('guide-toggle');
+        const guideContent = document.getElementById('guide-content');
+        const guideArrow = document.getElementById('guide-arrow');
+        if (guideToggle) {
+            guideToggle.addEventListener('click', () => {
+                guideContent.classList.toggle('open');
+                if (guideContent.classList.contains('open')) {
+                    guideArrow.style.transform = 'rotate(180deg)';
+                } else {
+                    guideArrow.style.transform = 'rotate(0deg)';
+                }
+            });
+        }
+
         // Admin Restore Easter Egg (Double Click on '플래너')
         const restoreEl = document.getElementById('admin-restore-trigger');
         let restoreClickCount = 0;

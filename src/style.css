@@ -87,6 +87,65 @@ header h1 {
     margin: 0 auto;
 }
 
+/* 간단 사용법 안내장 */
+.usage-guide-container {
+    background: #FFF9F2;
+    border: 1px solid #FFE4C4;
+    border-radius: 12px;
+    margin-top: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(255, 126, 54, 0.05);
+}
+
+.usage-guide-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    cursor: pointer;
+    font-weight: 700;
+    color: var(--primary-hover);
+    user-select: none;
+    transition: background 0.2s ease;
+}
+
+.usage-guide-header:hover {
+    background: #FFF0E0;
+}
+
+.arrow-down {
+    font-size: 0.8rem;
+    transition: transform 0.3s ease;
+}
+
+.usage-guide-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    background: white;
+}
+
+.usage-guide-content.open {
+    max-height: 500px;
+    /* 충분히 큰 값으로 설정 */
+}
+
+.usage-guide-content ul {
+    margin: 0;
+    padding: 16px 16px 16px 36px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.usage-guide-content li {
+    margin-bottom: 8px;
+}
+
+.usage-guide-content li:last-child {
+    margin-bottom: 0;
+}
+
 /* 지도 동선 필터 */
 .map-filter-container {
     background: var(--card-bg);
