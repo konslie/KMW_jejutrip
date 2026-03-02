@@ -18,9 +18,13 @@
 <body>
 
     <header>
-        <h1 id="main-title"><span id="admin-save-trigger" style="cursor: pointer; user-select: none;"
-                title="더블 클릭 시 새로운 원본으로 저장">🌴</span> 제주 여행 <span id="admin-restore-trigger"
-                style="cursor: pointer; user-select: none;" title="더블 클릭 시 초기 원본으로 복구">플래너</span></h1>
+        <h1 id="main-title">
+            <span id="admin-save-trigger" style="cursor: pointer; user-select: none;"
+                title="더블 클릭 시 새로운 원본으로 저장">💾</span>
+            <span id="dynamic-trip-title">여행 플래너 로딩중...</span>
+            <span id="admin-restore-trigger" style="cursor: pointer; user-select: none;"
+                title="더블 클릭 시 초기 원본으로 복구">⏪</span>
+        </h1>
     </header>
 
     <div id="map-wrapper">
@@ -49,17 +53,8 @@
 
         <div class="map-filter-container">
             <span class="map-filter-label">🗺️ 지도에 표시할 일정 보기</span>
-            <div class="radio-group">
-                <input type="radio" id="filter-all" name="map-filter" value="all" checked>
-                <label for="filter-all">전체 일정</label>
-                <input type="radio" id="filter-d1" name="map-filter" value="day1">
-                <label for="filter-d1">1일차</label>
-                <input type="radio" id="filter-d2" name="map-filter" value="day2">
-                <label for="filter-d2">2일차</label>
-                <input type="radio" id="filter-d3" name="map-filter" value="day3">
-                <label for="filter-d3">3일차</label>
-                <input type="radio" id="filter-d4" name="map-filter" value="day4">
-                <label for="filter-d4">4일차</label>
+            <div class="radio-group" id="filter-group">
+                <!-- JS dynamically generates radio buttons here based on config.totalDays -->
             </div>
         </div>
 

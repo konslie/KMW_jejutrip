@@ -1,6 +1,7 @@
 // src/api/map.js
 
 import { activePlan, dayColors } from '../data/schedule.js';
+import { config } from '../data/config.js';
 
 export let map, ps;
 export let markers = [];
@@ -19,7 +20,9 @@ export function initMap(containerId, fallbackTextId) {
             kakao.maps.load(() => {
                 const container = document.getElementById(containerId);
                 container.innerHTML = "";
-                map = new kakao.maps.Map(container, { center: new kakao.maps.LatLng(33.38, 126.55), level: 10 });
+                const lat = config?.mapCenter?.lat || 33.38;
+                const lng = config?.mapCenter?.lng || 126.55;
+                map = new kakao.maps.Map(container, { center: new kakao.maps.LatLng(lat, lng), level: 10 });
                 ps = new kakao.maps.services.Places();
                 isMapLoaded = true;
                 resolve();
@@ -60,7 +63,11 @@ export async function updateMap() {
     let bounds = new kakao.maps.LatLngBounds();
     let hasPoints = false;
 
-    const daysToRender = currentMapFilter === 'all' ? ['day1', 'day2', 'day3', 'day4'] : [currentMapFilter];
+    if (!config) return;
+
+    const daysToRender = currentMapFilter === 'all'
+        ? Array.from({ length: config.totalDays }, (_, i) => `day${i + 1}`)
+        : [currentMapFilter];
 
     for (const dayKey of daysToRender) {
         const path = [];

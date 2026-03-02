@@ -2,6 +2,7 @@
 
 import { ps, isMapLoaded, currentMapFilter, updateMap } from '../api/map.js';
 import { addToList } from '../data/schedule.js';
+import { config } from '../data/config.js';
 
 export function initSearchEvents(renderCallback) {
     const searchBtn = document.getElementById('search-btn');
@@ -35,10 +36,9 @@ export function searchPlace(renderCallback) {
                         <span class="result-address">${item.address_name}</span>
                         <div class="add-controls">
                             <select id="sel-day-${idx}" class="sel-day">
-                                <option value="day1">1일차</option>
-                                <option value="day2">2일차</option>
-                                <option value="day3">3일차</option>
-                                <option value="day4">4일차</option>
+                                ${Array.from({ length: config.totalDays || 4 }, (_, d) =>
+                `<option value="day${d + 1}">${d + 1}일차</option>`
+            ).join('')}
                             </select>
                             <input type="time" id="sel-time-${idx}" class="sel-time" value="12:00">
                             <button class="add-btn" data-placename="${item.place_name}" data-idx="${idx}">추가</button>

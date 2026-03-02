@@ -2,17 +2,21 @@
 
 import { activePlan, dayOptions, dayColors, changeDayOption, updateTime, deleteItem, pushSync } from '../data/schedule.js';
 import { updateMap, isMapLoaded } from '../api/map.js';
+import { config } from '../data/config.js';
 
 export function renderList() {
     const container = document.getElementById('itinerary-container');
     if (!container) return;
     container.innerHTML = "";
 
-    ['day1', 'day2', 'day3', 'day4'].forEach((day, dIdx) => {
+    if (!config) return;
+
+    const daysArray = Array.from({ length: config.totalDays }, (_, i) => `day${i + 1}`);
+    daysArray.forEach((day, dIdx) => {
         const section = document.createElement('div');
         section.className = 'day-section';
 
-        let dayColor = dayColors[day];
+        let dayColor = dayColors[day] || '#333333';
         let optA_active = dayOptions[day] === 'A' ? 'active' : '';
         let optB_active = dayOptions[day] === 'B' ? 'active' : '';
 

@@ -11,10 +11,18 @@ const firebaseConfig = {
     appId: "1:399281249046:web:23bc9653791592936c4e37"
 };
 
+import { config } from '../data/config.js';
+
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 
-const docRef = doc(db, "trips", "jejuFamilyPlan");
+let docRef = null;
+function getDocRef() {
+    if (!docRef && config) {
+        docRef = doc(db, "trips", config.tripId);
+    }
+    return docRef;
+}
 let isInternalUpdate = false;
 
 // Initialize or update the entire document, including adminPlan if it's the very first time.
@@ -22,7 +30,10 @@ export async function initializeFirestorePlan(activePlan, dayOptions) {
     try {
         isInternalUpdate = true;
 
-        const docSnap = await getDoc(docRef);
+        const ref = getDocRef();
+        if (!ref) return;
+
+        const docSnap = await getDoc(ref);
         let updateData = { activePlan, dayOptions };
 
         // If this is the absolute first time saving, also set the adminPlan as the baseline.
@@ -31,7 +42,7 @@ export async function initializeFirestorePlan(activePlan, dayOptions) {
             updateData.adminDayOptions = dayOptions;
         }
 
-        await setDoc(docRef, updateData, { merge: true });
+        await setDoc(ref, updateData, { merge: true });
 
         setTimeout(() => { isInternalUpdate = false; }, 800);
     } catch (e) {
@@ -43,7 +54,9 @@ export async function initializeFirestorePlan(activePlan, dayOptions) {
 export async function syncPlanToFirestore(activePlan, dayOptions) {
     try {
         isInternalUpdate = true;
-        await setDoc(docRef, { activePlan, dayOptions }, { merge: true });
+        const ref = getDocRef();
+        if (!ref) return;
+        await setDoc(ref, { activePlan, dayOptions }, { merge: true });
 
         setTimeout(() => { isInternalUpdate = false; }, 800);
     } catch (e) {
@@ -53,7 +66,9 @@ export async function syncPlanToFirestore(activePlan, dayOptions) {
 
 export async function loadPlanFromFirestore() {
     try {
-        const docSnap = await getDoc(docRef);
+        const ref = getDocRef();
+        if (!ref) return null;
+        const docSnap = await getDoc(ref);
         if (docSnap.exists()) {
             return docSnap.data();
         }
@@ -64,7 +79,10 @@ export async function loadPlanFromFirestore() {
 }
 
 export function subscribeToPlanChanges(callback) {
-    onSnapshot(docRef, (docSnap) => {
+    const ref = getDocRef();
+    if (!ref) return;
+
+    onSnapshot(ref, (docSnap) => {
         if (!isInternalUpdate && docSnap.exists()) {
             callback(docSnap.data());
         }
@@ -73,36 +91,27 @@ export function subscribeToPlanChanges(callback) {
 
 // Restore activePlan to the saved adminPlan
 export async function restoreAdminPlan() {
-    try {
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-            const data = docSnap.data();
-            if (data.adminPlan && data.adminDayOptions) {
-                // Overwrite the active plan with the admin baseline
-                await syncPlanToFirestore(data.adminPlan, data.adminDayOptions);
-                return { activePlan: data.adminPlan, dayOptions: data.adminDayOptions };
-            }
-        }
-        return null;
-    } catch (e) {
-        console.error("Error restoring admin plan:", e);
-        return null;
+    const ref = getDocRef();
+    if (!ref) return null;
+
+    const docSnap = await getDoc(ref);
+    if (docSnap.exists() && docSnap.data().adminPlan && docSnap.data().adminDayOptions) {
+        const data = docSnap.data();
+        await syncPlanToFirestore(data.adminPlan, data.adminDayOptions);
+        return { activePlan: data.adminPlan, dayOptions: data.adminDayOptions };
     }
+    return null;
 }
 
 // Force overwrite the admin baseline with a specific activePlan state.
 export async function overwriteAdminPlan(activePlan, dayOptions) {
-    try {
-        isInternalUpdate = true;
-        await setDoc(docRef, {
-            adminPlan: activePlan,
-            adminDayOptions: dayOptions
-        }, { merge: true });
+    const ref = getDocRef();
+    if (!ref) return false;
 
-        setTimeout(() => { isInternalUpdate = false; }, 800);
-        return true;
-    } catch (e) {
-        console.error("Error overwriting admin plan:", e);
-        return false;
-    }
+    await setDoc(ref, {
+        adminPlan: activePlan,
+        adminDayOptions: dayOptions
+    }, { merge: true });
+
+    return true;
 }

@@ -1,74 +1,34 @@
 // src/data/schedule.js
 
-export const dayColors = { day1: '#FF8C00', day2: '#228B22', day3: '#0077BE', day4: '#800080' };
-
-export const rawData = {
-    day1: {
-        common: [
-            { name: "제주공항 (블루렌트카)", searchName: "제주국제공항 블루렌트카", time: "14:00", desc: "도착 및 렌터카 인수", tips: "테슬라 모델3 하이랜드 인수 / 짐 싣고 신속 이동" },
-            { name: "제주에가면", searchName: "제주에가면", time: "15:00", desc: "보말칼국수, 보말죽, 왕만두", tips: "⚠️ 브레이크타임(14:30~15:00) 확인 후 15시 맞춰 방문 추천. 아이 식사로 자극 없어 좋음." },
-            { name: "용꽈배기 & 커피파인더", searchName: "커피파인더", time: "16:00", desc: "이동 중 간식 픽업", tips: "⚠️ 주차 매우 어려움 (제주시청 인근). 동승자만 내려서 픽업하거나 공영주차장 필수." },
-            { name: "함덕해수욕장", searchName: "함덕해수욕장", time: "17:00", desc: "숙소 가는 길목, 노을 질 무렵 가벼운 모래 산책", tips: "" },
-            { name: "한동이스케이프", searchName: "한동이스케이프", time: "18:30", desc: "숙소 체크인", tips: "" }
-        ],
-        A: [{ name: "구좌농협하나로마트 (세화)", searchName: "구좌농협하나로마트 본점", time: "19:00", desc: "광어/우럭/딱새우/문어 등 다양, 주차 편리", tips: "★ 회 포장 추천 옵션" }],
-        B: [{ name: "곰막식당", searchName: "곰막식당", time: "19:00", desc: "고등어회 전문, 깔끔한 포장", tips: "" }]
-    },
-    day2: {
-        common: [
-            { name: "한동이스케이프", searchName: "한동이스케이프", time: "10:30", desc: "체크아웃", tips: "" },
-            { name: "오션스퀘어리조트", searchName: "오션스퀘어리조트", time: "15:00", desc: "친구 가족 합류, 수영장 물놀이", tips: "⚡ 리조트 내 완속 충전기 확인 및 충전" }
-        ],
-        A: [
-            { name: "벵디 (평대리)", searchName: "벵디", time: "11:00", desc: "돌문어덮밥 & 수제 등심돈가스 (아이 추천)", tips: "테이블링 앱으로 대기 확인 필수" },
-            { name: "제주레일바이크", searchName: "제주레일바이크", time: "12:30", desc: "반자동(힘 안 듦), 소떼/오름 풍경 (걷기 싫을 때)", tips: "" },
-            { name: "블루보틀 제주", searchName: "블루보틀 커피 제주 카페", time: "14:00", desc: "넓은 야외 카페", tips: "" }
-        ],
-        B: [
-            { name: "명진전복 (구좌)", searchName: "명진전복", time: "11:00", desc: "전복돌솥밥, 고등어구이 (건강식)", tips: "테이블링 앱으로 대기 확인 필수" },
-            { name: "비자림", searchName: "비자림", time: "12:30", desc: "평지 흙길 숲 산책 (유모차 가능)", tips: "" },
-            { name: "스타벅스 더제주송당파크R", searchName: "스타벅스 더제주송당파크R점", time: "14:00", desc: "대형 정원", tips: "" }
-        ]
-    },
-    day3: {
-        common: [
-            { name: "오션스퀘어리조트", searchName: "오션스퀘어리조트", time: "11:00", desc: "체크아웃", tips: "" },
-            { name: "서귀포 친구네 집", searchName: "서귀포시청 제2청사", time: "15:30", desc: "서귀포 제2청사 인근", tips: "⚡ 필요 시 서귀포 이마트 슈퍼차저 이용 (친구네 근처)" },
-            { name: "협재 숙소로 이동", searchName: "협재해수욕장", time: "19:00", desc: "소요시간 약 50분 (아이 취침 시간 활용)", tips: "" }
-        ],
-        A: [
-            { name: "동선제면가", searchName: "동선제면가", time: "12:00", desc: "흑돼지 고기국수, 만두", tips: "" },
-            { name: "휴애리자연생활공원", searchName: "휴애리자연생활공원", time: "13:30", desc: "동물 먹이주기 체험", tips: "" }
-        ],
-        B: [
-            { name: "테이블앤데스크", searchName: "테이블앤데스크", time: "12:00", desc: "가지튀김, 카레", tips: "" },
-            { name: "코코몽에코파크", searchName: "코코몽에코파크", time: "13:30", desc: "캐릭터 테마파크", tips: "" }
-        ]
-    },
-    day4: {
-        common: [
-            { name: "협재 숙소", searchName: "협재해수욕장", time: "10:00", desc: "체크아웃", tips: "" },
-            { name: "바다제비 (한림)", searchName: "바다제비", time: "10:20", desc: "수제비, 칼국수, 한치파전", tips: "⚠️ 오픈런 추천. 주문 시 '아기 먹을 거라 고추/후추 빼주세요' 필수 요청." },
-            { name: "제주공항 & 렌터카 반납", searchName: "제주국제공항", time: "14:00", desc: "공항 이동 및 수속", tips: "15:55 비행기 기준, 14:30 셔틀 탑승 목표" }
-        ],
-        A: [
-            { name: "화조원 (애월)", searchName: "화조원", time: "11:30", desc: "공항 가는 길목, 알파카/조류 직접 체험", tips: "★ 추천 옵션" },
-            { name: "호텔샌드", searchName: "호텔샌드", time: "13:00", desc: "협재 해변 뷰 카페", tips: "" }
-        ],
-        B: [
-            { name: "금능해수욕장", searchName: "금능해수욕장", time: "11:30", desc: "바다 배경 사진 촬영, 모래놀이", tips: "" },
-            { name: "앤트러사이트 한림", searchName: "앤트러사이트 한림", time: "13:00", desc: "독특한 공장형 카페", tips: "" }
-        ]
-    }
+export const dayColors = {
+    day1: '#FF8C00', day2: '#228B22', day3: '#0077BE', day4: '#800080',
+    day5: '#E53E3E', day6: '#D69E2E', day7: '#38A169', day8: '#3182CE', day9: '#805AD5', day10: '#D53F8C'
 };
 
-import { initializeFirestorePlan, syncPlanToFirestore, loadPlanFromFirestore, subscribeToPlanChanges, restoreAdminPlan, overwriteAdminPlan } from '../api/firebase.js';
+import { config } from './config.js';
+
+import { initializeFirestorePlan, syncPlanToFirestore, loadPlanFromFirestore, subscribeToPlanChanges } from '../api/firebase.js';
 
 // Application State
-export let activePlan = { day1: [], day2: [], day3: [], day4: [] };
-export let dayOptions = { day1: 'A', day2: 'A', day3: 'A', day4: 'A' };
+export let activePlan = {};
+export let dayOptions = {};
+
+// Keep setter functions for main.js to update local state after Firebase restores it
+export function setLocalPlanData(newPlan, newOptions) {
+    activePlan = newPlan;
+    dayOptions = newOptions;
+}
 
 export async function initData(renderCallback, updateMapCallback) {
+    if (!config) return;
+
+    // Initialize state objects based on totalDays
+    for (let i = 1; i <= config.totalDays; i++) {
+        const d = `day${i}`;
+        if (!activePlan[d]) activePlan[d] = [];
+        if (!dayOptions[d]) dayOptions[d] = 'A';
+    }
+
     const savedData = await loadPlanFromFirestore();
     let isNew = false;
 
@@ -76,15 +36,19 @@ export async function initData(renderCallback, updateMapCallback) {
         activePlan = savedData.activePlan;
         dayOptions = savedData.dayOptions;
     } else {
-        ['day1', 'day2', 'day3', 'day4'].forEach(day => {
-            let commonList = JSON.parse(JSON.stringify(rawData[day].common || []));
-            let currentOpt = dayOptions[day];
-            let optionList = JSON.parse(JSON.stringify(rawData[day][currentOpt] || []));
-            optionList.forEach(item => item.hasAlt = true);
+        for (let i = 1; i <= config.totalDays; i++) {
+            const d = `day${i}`;
+            const currentOpt = dayOptions[d];
 
-            let userAdded = (activePlan[day] || []).filter(item => item.desc === "사용자 추가 일정");
-            activePlan[day] = [...commonList, ...optionList, ...userAdded];
-        });
+            // Filter rawData flat array
+            const dailyItems = config.rawData.filter(item => item.day === d);
+            const commonList = dailyItems.filter(item => !item.hasAlt);
+            const optionList = dailyItems.filter(item => item.hasAlt && item.altOption === currentOpt);
+
+            // Add custom elements logic
+            let userAdded = (activePlan[d] || []).filter(item => item.desc === "사용자 추가 일정");
+            activePlan[d] = [...commonList, ...optionList, ...userAdded];
+        }
         isNew = true;
     }
 
@@ -113,12 +77,14 @@ export function pushSync() {
 export function changeDayOption(day, opt, renderCallback, updateMapCallback) {
     dayOptions[day] = opt;
 
-    let commonList = JSON.parse(JSON.stringify(rawData[day].common || []));
-    let optionList = JSON.parse(JSON.stringify(rawData[day][opt] || []));
-    optionList.forEach(item => item.hasAlt = true);
+    if (config) {
+        const dailyItems = config.rawData.filter(item => item.day === day);
+        const commonList = dailyItems.filter(item => !item.hasAlt);
+        const optionList = dailyItems.filter(item => item.hasAlt && item.altOption === opt);
 
-    let userAdded = (activePlan[day] || []).filter(item => item.desc === "사용자 추가 일정");
-    activePlan[day] = [...commonList, ...optionList, ...userAdded];
+        let userAdded = (activePlan[day] || []).filter(item => item.desc === "사용자 추가 일정");
+        activePlan[day] = [...commonList, ...optionList, ...userAdded];
+    }
 
     if (renderCallback) renderCallback();
     if (updateMapCallback) updateMapCallback();
@@ -146,24 +112,4 @@ export function addToList(targetDay, time, name, renderCallback, updateMapCallba
     pushSync();
 }
 
-export async function triggerAdminRestore(renderCallback, updateMapCallback) {
-    const restoredData = await restoreAdminPlan();
-    if (restoredData) {
-        activePlan = restoredData.activePlan;
-        dayOptions = restoredData.dayOptions;
-        if (renderCallback) renderCallback();
-        if (updateMapCallback) updateMapCallback();
-        alert("일정이 관리자 지정 초기 상태로 복구되었습니다!");
-    } else {
-        alert("복구에 실패했거나 백엔드에 초기 데이터가 없습니다.");
-    }
-}
 
-export async function triggerAdminSave() {
-    const success = await overwriteAdminPlan(activePlan, dayOptions);
-    if (success) {
-        alert("현재 화면의 일정이 새로운 관리자(원본) 일정으로 저장되었습니다!");
-    } else {
-        alert("관리자 일정 저장에 실패했습니다.");
-    }
-}
