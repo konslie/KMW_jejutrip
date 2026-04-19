@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html class="dark" lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Night-Driving Utility Dashboard | Model 3 Highland Guide</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&amp;family=Inter:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "midnight": "#0a0e1a",
+                        "navy-panel": "#121826",
+                        "navy-light": "#1e2638",
+                        "warm-red": "#ff4d4d",
+                        "warm-red-dim": "#b33535",
+                        "text-dim": "#94a3b8",
+                        "text-bright": "#f8fafc",
+                        "tertiary-accent": "#38bdf8"
+                    },
+                    "fontFamily": {
+                        "condensed": ["'Roboto Condensed'", "sans-serif"],
+                        "body": ["Inter", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer base {
+            body {
+                @apply bg-midnight text-text-bright font-body antialiased;
+                letter-spacing: -0.01em;
+            }
+        }
+        .pill-container {
+            @apply flex gap-2 items-stretch w-full;
+        }
+        .pill-item {
+            @apply flex-1 p-2.5 rounded-full text-center flex flex-col justify-center border transition-all;
+        }
+        .pill-left {
+            @apply bg-navy-light border-slate-700/50;
+        }
+        .pill-right {
+            @apply bg-navy-panel border-warm-red/30;
+        }
+        .utility-card {
+            @apply bg-navy-panel rounded-2xl p-4 shadow-[8px_8px_16px_rgba(0,0,0,0.4)] border border-white/5;
+        }
+        .highlight-red {
+            @apply text-warm-red font-bold;
+        }
+        .condensed-label {
+            @apply font-condensed uppercase tracking-tighter text-[10px] leading-none mb-1;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="pb-28">
+<header class="fixed top-0 w-full z-50 bg-midnight/80 backdrop-blur-xl border-b border-white/5 flex items-center justify-between px-5 py-3">
+<button class="text-text-dim p-2 rounded-lg active:bg-white/10">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="font-condensed font-bold text-lg tracking-wider text-warm-red">UTILITY DASHBOARD</h1>
+<button class="text-text-dim p-2 rounded-lg active:bg-white/10">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</header>
+<main class="pt-20 px-4 max-w-lg mx-auto space-y-8">
+<section class="relative rounded-2xl overflow-hidden shadow-2xl">
+<div class="h-48 w-full relative">
+<img alt="Sleek white Tesla Model 3 Highland" class="w-full h-full object-cover brightness-[0.6] contrast-125" src="https://lh3.googleusercontent.com/aida/ADBb0uip7P4Ebg0kpEKqNluqygKyYiK9a2MTma5G3EMF6DxtyBOPn2FX5k6Qepo3ioXKYaqpowob7YckCK2XkrCVkHQHWrN9jYukqVEOjMZdYkh66CTnEs_NY0AqdufRCYXU_pKRFnAJczGt2G9wVx3KGVlV4R3JU5Y-3PA9B1Zv8H5vzss3nvsOJkcBbtiWYDHqZaNuH7Rr8JJEgChmghmtTfb6yDFdqMGTJGXnURb1RgdVUzYhHfd9TkG5ciOjz1BYpTermuw62QcGGNo"/>
+<div class="absolute inset-0 bg-gradient-to-t from-midnight via-midnight/40 to-transparent"></div>
+<div class="absolute bottom-4 left-5 right-5">
+<h2 class="text-2xl font-black leading-tight tracking-tighter text-text-bright">
+                    현대차(아이오닉 5) 유저를 위한<br/>
+<span class="text-warm-red">테슬라 조작 가이드</span>
+</h2>
+</div>
+</div>
+</section>
+<div class="flex justify-between px-2 text-[10px] font-condensed text-text-dim uppercase tracking-widest">
+<span>Ioniq 5 (Reference)</span>
+<span>Model 3 (Control)</span>
+</div>
+<section class="space-y-4" id="safety">
+<div class="flex items-center gap-2 px-2">
+<span class="material-symbols-outlined text-warm-red text-sm" style="font-variation-settings: 'FILL' 1;">security</span>
+<h3 class="font-condensed text-lg font-bold text-text-bright tracking-tight">1. 안전 &amp; 핵심 주행</h3>
+</div>
+<div class="space-y-3">
+<div class="utility-card">
+<h4 class="font-condensed text-sm font-bold mb-3 flex items-center gap-2 text-slate-400">
+<span class="material-symbols-outlined text-xs">power_settings_new</span> 시동 걸기
+                </h4>
+<div class="pill-container">
+<div class="pill-item pill-left">
+<span class="condensed-label text-tertiary-accent">아이오닉 5</span>
+<p class="text-[11px] font-medium leading-tight">브레이크 + 시동 버튼 클릭</p>
+</div>
+<div class="pill-item pill-right border-warm-red/40">
+<span class="condensed-label text-warm-red">모델 3 하이랜드</span>
+<p class="text-[11px] font-bold leading-tight">
+<span class="highlight-red">카드키 거치</span> + <span class="highlight-red">브레이크</span> 밟기
+                        </p>
+</div>
+</div>
+<div class="mt-3 flex gap-1.5 items-start text-[10px] text-text-dim leading-tight bg-black/20 p-2 rounded-lg">
+<span class="material-symbols-outlined text-[12px] text-warm-red">info</span>
+<p class="word-keep-all">별도의 ON/OFF 버튼 없음</p>
+</div>
+</div>
+<div class="utility-card">
+<h4 class="font-condensed text-sm font-bold mb-3 flex items-center gap-2 text-slate-400">
+<span class="material-symbols-outlined text-xs">swap_horiz</span> 기어 변속
+                </h4>
+<div class="pill-container">
+<div class="pill-item pill-left">
+<span class="condensed-label text-tertiary-accent">아이오닉 5</span>
+<p class="text-[11px] font-medium leading-tight">핸들 뒤 회전형 레버</p>
+</div>
+<div class="pill-item pill-right">
+<span class="condensed-label text-warm-red">모델 3 하이랜드</span>
+<p class="text-[11px] font-bold leading-tight">
+                            화면 왼쪽 끝 위(D)/아래(R) <span class="highlight-red">스와이프</span>
+</p>
+</div>
+</div>
+<div class="mt-3 flex gap-1.5 items-start text-[10px] text-text-dim leading-tight bg-black/20 p-2 rounded-lg">
+<span class="material-symbols-outlined text-[12px] text-warm-red">info</span>
+<p class="word-keep-all">천장 비상등 옆 물리 버튼 존재</p>
+</div>
+</div>
+<div class="utility-card">
+<h4 class="font-condensed text-sm font-bold mb-3 flex items-center gap-2 text-slate-400">
+<span class="material-symbols-outlined text-xs">turn_left</span> 방향 지시등
+                </h4>
+<div class="pill-container">
+<div class="pill-item pill-left">
+<span class="condensed-label text-tertiary-accent">아이오닉 5</span>
+<p class="text-[11px] font-medium leading-tight">핸들 왼쪽 레버 조작</p>
+</div>
+<div class="pill-item pill-right">
+<span class="condensed-label text-warm-red">모델 3 하이랜드</span>
+<p class="text-[11px] font-bold leading-tight">
+                            핸들 왼쪽 <span class="highlight-red">물리 버튼</span> 클릭
+                        </p>
+</div>
+</div>
+<div class="mt-3 flex gap-1.5 items-start text-[10px] text-text-dim leading-tight bg-black/20 p-2 rounded-lg">
+<span class="material-symbols-outlined text-[12px] text-warm-red">info</span>
+<p class="word-keep-all">하이랜드 전용: 레버가 아예 없음</p>
+</div>
+</div>
+<div class="utility-card">
+<h4 class="font-condensed text-sm font-bold mb-3 flex items-center gap-2 text-slate-400">
+<span class="material-symbols-outlined text-xs">electric_car</span> 회생 제동
+                </h4>
+<div class="pill-container">
+<div class="pill-item pill-left">
+<span class="condensed-label text-tertiary-accent">아이오닉 5</span>
+<p class="text-[11px] font-medium leading-tight">패들 시프트로 단계 조절</p>
+</div>
+<div class="pill-item pill-right">
+<span class="condensed-label text-warm-red">모델 3 하이랜드</span>
+<p class="text-[11px] font-bold leading-tight">
+<span class="highlight-red">조절 불가</span> (강한 제동 고정)
+                        </p>
+</div>
+</div>
+<div class="mt-3 flex gap-1.5 items-start text-[10px] text-text-dim leading-tight bg-black/20 p-2 rounded-lg">
+<span class="material-symbols-outlined text-[12px] text-warm-red">info</span>
+<p class="word-keep-all">원페달 드라이빙 상시 적용</p>
+</div>
+</div>
+<div class="utility-card">
+<h4 class="font-condensed text-sm font-bold mb-3 flex items-center gap-2 text-slate-400">
+<span class="material-symbols-outlined text-xs">warning</span> 비상등
+                </h4>
+<div class="pill-container">
+<div class="pill-item pill-left">
+<span class="condensed-label text-tertiary-accent">아이오닉 5</span>
+<p class="text-[11px] font-medium leading-tight">대시보드 중앙 버튼</p>
+</div>
+<div class="pill-item pill-right">
+<span class="condensed-label text-warm-red">모델 3 하이랜드</span>
+<p class="text-[11px] font-bold leading-tight">
+<span class="highlight-red">천장</span> 물리 버튼
+                        </p>
+</div>
+</div>
+<div class="mt-3 flex gap-1.5 items-start text-[10px] text-text-dim leading-tight bg-black/20 p-2 rounded-lg">
+<span class="material-symbols-outlined text-[12px] text-warm-red">info</span>
+<p class="word-keep-all">긴급 상황 대비 위치 숙지 필수</p>
+</div>
+</div>
+</div>
+</section>
+<section class="space-y-4" id="visibility">
+<div class="flex items-center gap-2 px-2">
+<span class="material-symbols-outlined text-warm-red text-sm" style="font-variation-settings: 'FILL' 1;">visibility</span>
+<h3 class="font-condensed text-lg font-bold text-text-bright tracking-tight">2. 시계 확보 및 편의</h3>
+</div>
+<div class="space-y-3">
+<div class="utility-card">
+<h4 class="font-condensed text-sm font-bold mb-3 flex items-center gap-2 text-slate-400">
+<span class="material-symbols-outlined text-xs">water_drop</span> 와이퍼 조작
+                </h4>
+<div class="pill-container">
+<div class="pill-item pill-left">
+<span class="condensed-label text-tertiary-accent">아이오닉 5</span>
+<p class="text-[11px] font-medium leading-tight">핸들 오른쪽 레버 조작</p>
+</div>
+<div class="pill-item pill-right">
+<span class="condensed-label text-warm-red">모델 3 하이랜드</span>
+<p class="text-[11px] font-bold leading-tight">
+                            왼쪽 버튼 <span class="highlight-red">클릭</span> (1회 작동)
+                        </p>
+</div>
+</div>
+<div class="mt-3 flex gap-1.5 items-start text-[10px] text-text-dim leading-tight bg-black/20 p-2 rounded-lg">
+<span class="material-symbols-outlined text-[12px] text-warm-red">info</span>
+<p class="word-keep-all">클릭 시 화면 조절 메뉴 즉시 팝업</p>
+</div>
+</div>
+<div class="utility-card">
+<h4 class="font-condensed text-sm font-bold mb-3 flex items-center gap-2 text-slate-400">
+<span class="material-symbols-outlined text-xs">ev_station</span> 충전구 열기
+                </h4>
+<div class="pill-container">
+<div class="pill-item pill-left">
+<span class="condensed-label text-tertiary-accent">아이오닉 5</span>
+<p class="text-[11px] font-medium leading-tight">충전구 덮개 푸시/버튼</p>
+</div>
+<div class="pill-item pill-right">
+<span class="condensed-label text-warm-red">모델 3 하이랜드</span>
+<p class="text-[11px] font-bold leading-tight">
+<span class="highlight-red">화면 터치</span> 또는 <span class="highlight-red">충전구</span> 터치
+                        </p>
+</div>
+</div>
+<div class="mt-3 flex gap-1.5 items-start text-[10px] text-text-dim leading-tight bg-black/20 p-2 rounded-lg">
+<span class="material-symbols-outlined text-[12px] text-warm-red">info</span>
+<p class="word-keep-all">완속/급속 통합형 포트</p>
+</div>
+</div>
+</div>
+</section>
+<section class="space-y-3">
+<div class="bg-navy-panel border border-warm-red/20 rounded-2xl p-4 shadow-xl">
+<h3 class="font-condensed font-bold text-warm-red text-base flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-sm">navigation</span> NAVIGATION &amp; SYNC
+            </h3>
+<div class="space-y-4 text-[11px] text-text-dim leading-relaxed">
+<div>
+<h5 class="font-bold text-text-bright mb-1">아이폰 연동 및 길 찾기 팁</h5>
+<ul class="list-disc pl-4 space-y-1">
+<li class="word-keep-all"><span class="highlight-red">애플 카플레이 미지원</span>: 테슬라는 독자 OS 사용으로 티맵 미러링 불가.</li>
+<li class="word-keep-all"><span class="highlight-red">목적지 전송</span>: 네이버 지도 공유 → Tesla 앱 선택 시 차량으로 즉시 전송.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="bg-navy-panel border border-slate-800 rounded-2xl p-4 shadow-xl">
+<h3 class="font-condensed font-bold text-text-bright text-base flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-sm">rotate_auto</span> AUTOPILOT
+            </h3>
+<div class="grid grid-cols-2 gap-3 text-[10px]">
+<div class="bg-black/20 p-2 rounded-lg border border-white/5">
+<p class="font-bold text-warm-red mb-1">활성화</p>
+<p class="text-text-dim leading-tight">핸들 오른쪽 스크롤 휠 클릭</p>
+</div>
+<div class="bg-black/20 p-2 rounded-lg border border-white/5">
+<p class="font-bold text-warm-red mb-1">속도 조절</p>
+<p class="text-text-dim leading-tight">스크롤 휠 위/아래 조작</p>
+</div>
+</div>
+</div>
+<div class="bg-navy-panel border border-slate-800 rounded-2xl p-4 shadow-xl">
+<h3 class="font-condensed font-bold text-text-bright text-base flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-sm">magic_button</span> SPECIAL FEATURES
+            </h3>
+<ul class="space-y-2 text-[11px] text-text-dim">
+<li class="flex gap-2">
+<span class="text-warm-red">●</span>
+<span class="word-keep-all"><strong>감시 모드</strong>: 주차 중 주변 움직임 녹화 (화면 상단 과녁 아이콘)</span>
+</li>
+<li class="flex gap-2">
+<span class="text-warm-red">●</span>
+<span class="word-keep-all"><strong>화면 재부팅</strong>: 양쪽 휠 10초간 꾹 누름 (시스템 먹통 시)</span>
+</li>
+</ul>
+</div>
+</section>
+</main>
+<nav class="fixed bottom-0 w-full z-50 bg-midnight/90 backdrop-blur-lg border-t border-white/10 flex justify-around items-center px-4 py-3 md:hidden">
+<button class="flex flex-col items-center gap-1 text-warm-red">
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">security</span>
+<span class="font-condensed text-[9px] font-bold uppercase tracking-widest">Safety</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-text-dim opacity-60">
+<span class="material-symbols-outlined text-xl">speed</span>
+<span class="font-condensed text-[9px] font-bold uppercase tracking-widest">Drive</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-text-dim opacity-60">
+<span class="material-symbols-outlined text-xl">settings_input_component</span>
+<span class="font-condensed text-[9px] font-bold uppercase tracking-widest">Tech</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-text-dim opacity-60">
+<span class="material-symbols-outlined text-xl">menu_book</span>
+<span class="font-condensed text-[9px] font-bold uppercase tracking-widest">Guide</span>
+</button>
+</nav>
+
+</body></html>
